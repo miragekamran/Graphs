@@ -97,31 +97,33 @@ class Graph:
         breath-first order.
         """
         # Create an empty queue and Add a PATH TO starting vertex
-        #  I.e add array [1] to the queue
-        queue = []
-        queue.append([starting_vertex])
+        # I.e add array [1] to the queue
+        queue = Queue()
+        queue.enqueue([starting_vertex])
         # Create visited set (its empty for now)
         visited = set()
         # while queue is not empty:
-        while len(queue) > 0:
+        while queue.size() > 0:
             # dequeue the current PATH from the queue
-            current_vertex_path = queue.pop(0)
-            # get the current vertex to analyze from the path
-            return self.starting_vertex[current_vertex_path]
-            # use the vertex at the END of the path array
-
+            current_vertex_path = queue.dequeue()
+            # grab the last vertex from the path
+            last_vertex_path = current_vertex_path[-1]
             # if vertex not visited:
-            # add vertex to visited list
-
-            # CHECK IF CURRENT VERTEX IS THE TARGET VERTEX
-            # we found our vertex, and the path to it
-            # return the PATH
-
-            # for each neighbor of current verte
-            # Add the path to that neighbor, to the queue
-            # COPY THE CURRENT PATH
-            # add neighbor to new path
-            # add the whole path to the Queue
+            if last_vertex_path not in visited:
+                # CHECK IF IT IS THE TARGET VERTEX
+                if last_vertex_path == destination_vertex:
+                    # return the PATH
+                    return current_vertex_path
+                # add vertex to visited list
+                visited.add(last_vertex_path)
+                # for next neighbor of current verte
+                for next_vert in self.get_neighbors(last_vertex_path):
+                    # COPY THE CURRENT PATH
+                    new_path = list(current_vertex_path)
+                    # add neighbor to new path
+                    new_path.append(next_vert)
+                    # add the whole path to the Queue
+                    queue.enqueue(new_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -129,7 +131,35 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        # Create an empty stack and Add a PATH TO starting vertex
+        # I.e add array [1] to the stack
+        stack = Stack()
+        stack.push([starting_vertex])
+        # Create visited set (its empty for now)
+        visited = set()
+        # while queue is not empty:
+        while stack.size() > 0:
+            # destack the current PATH from the queue
+            current_vertex_path = stack.pop()
+            # grab the last vertex from the path
+            last_vertex_path = current_vertex_path[-1]
+            # if vertex not visited:
+            if last_vertex_path not in visited:
+                # CHECK IF IT IS THE TARGET VERTEX
+                if last_vertex_path == destination_vertex:
+                    # return the PATH
+                    return current_vertex_path
+                # add vertex to visited list
+                visited.add(last_vertex_path)
+                # for next neighbor of current verte
+                for next_vert in self.get_neighbors(last_vertex_path):
+                    # COPY THE CURRENT PATH
+                    new_path = list(current_vertex_path)
+                    # add neighbor to new path
+                    new_path.append(next_vert)
+                    # add the whole path to the Queue
+                    stack.push(new_path)
+
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
